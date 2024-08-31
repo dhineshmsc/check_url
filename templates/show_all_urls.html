@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Stored URLs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .button-group a, .button-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button-group a {
+            background-color: #00B4CC;
+        }
+
+        .button-group a:hover {
+            background-color: #008C9E;
+        }
+
+        .button-group button {
+            background-color: #e40ac0;
+        }
+
+        .button-group button:hover {
+            background-color: #388E3C;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .table-container {
+            overflow-x: auto; /* Allows horizontal scrolling */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 3px solid red;
+            table-layout: fixed; /* Ensures columns fit within the table */
+        }
+
+        th, td {
+            border: 2px solid gray;
+            padding: 10px;
+            text-align: left;
+            overflow: hidden; /* Prevents overflow within cells */
+            text-overflow: ellipsis; /* Adds ellipsis for long text */
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .sno-column {
+            width: 5%;
+        }
+
+        .url-column {
+            width: 50%;
+        }
+
+        .created-at-column {
+            width: 20%;
+        }
+
+        .employee-id-column {
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Button group with home link and download button -->
+        <div class="button-group">
+            <a href="{% url 'check_url' %}">Home</a>
+            <form method="get" action="{% url 'show_all_urls' %}">
+                <button type="submit" name="download">Download as Excel</button>
+            </form>
+        </div>
+        
+        <h1>All Stored URLs</h1>
+        
+        <!-- Table container to enable horizontal scrolling -->
+        <div class="table-container">
+            <!-- Table to display the data -->
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sno-column">S.No.</th>
+                        <th class="url-column">URL</th>
+                        
+                        <th class="employee-id-column">Employee ID</th>
+                        <th class="created-at-column">Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for url in all_urls %}
+                        <tr>
+                            <td class="sno-column">{{ forloop.counter }}</td>
+                            <td class="url-column">{{ url.url }}</td>
+                            
+                            <td class="employee-id-column">
+                                {% if url.employee_id == 'unknown' %}
+                                    -
+                                {% else %}
+                                    {{ url.employee_id }}
+                                {% endif %}
+                            </td>
+                            <td class="created-at-column">{{ url.created_at }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

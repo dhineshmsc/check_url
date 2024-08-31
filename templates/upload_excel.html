@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Excel File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form label {
+            display: block;
+            margin-bottom: 2px; /* Padding between label and input */
+            padding: 5px; /* Padding around the label text */
+        }
+        form input[type="file"], form input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        form button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #00B4CC;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        form button:hover {
+            background-color: #008C9E;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .show-button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #e40ac0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .show-button:hover {
+            background-color: #388E3C;
+        }
+        .upload-button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #5ccc00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .upload-button:hover {
+            background-color: #008C9E;
+        }
+    </style>
+    <style>
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .loading-overlay .spinner {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    
+    <script>
+        function validateForm(event) {
+            var accessKey = document.getElementById('access_key').value;
+            var correctKey = 'OW@123';
+
+            if (accessKey !== correctKey) {
+                event.preventDefault(); // Prevent form submission
+                alert('Access key is incorrect. Please enter the correct key.');
+            }
+        }
+        function goToHome() {
+            window.location.href = '{% url "check_url" %}';
+        }
+        function goTohShow() {
+            window.location.href = '{% url "show_all_urls" %}';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="button-group">
+            <button type="button" class="show-button" onclick="goToHome()">Home</button>
+            <button type="button" class="upload-button" onclick="goTohShow()">Show URL</button>
+        </div>
+        <h1>Upload Excel File with URLs</h1>
+        <form method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="access_key">Access Key:</label>
+            <input type="text" id="access_key" name="access_key" required autocomplete="off">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        function validateForm(event) {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+    </script>
+</body>
+
+</html>
