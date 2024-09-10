@@ -90,6 +90,21 @@
         .upload-button:hover {
             background-color: #008C9E;
         }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Button background color */
+            color: white; /* Button text color */
+            text-align: center;
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
     </style>
     <style>
         .loading-overlay {
@@ -118,6 +133,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
     </style>
     
     <script>
@@ -141,8 +157,11 @@
 <body>
     <div class="container">
         <div class="button-group">
-            <button type="button" class="show-button" onclick="goToHome()">Home</button>
-            <button type="button" class="upload-button" onclick="goTohShow()">Show URL</button>
+            <!-- <button type="button" class="show-button" onclick="goToHome()">Home</button>
+            <button type="button" class="upload-button" onclick="goTohShow()">Show URL</button> -->
+            <a href="{% url 'check_url' %}" class="button">Home</a>
+            <a href="{% url 'show_all_urls' %}" class="button">Show URL</a>
+            
         </div>
         <h1>Upload Excel File with URLs</h1>
         <form method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">

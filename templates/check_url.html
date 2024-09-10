@@ -151,6 +151,21 @@
         .upload-button:hover {
             background-color: #008C9E;
         }
+        .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
     </style>
     <script>
         // Hide the message after 2 seconds (2000 milliseconds)
@@ -197,8 +212,9 @@
 
         
         <div class="button-group">
-            <button type="button" class="show-button" onclick="showLoadingOverlay('urls')">Show URL</button>
-            <button type="button" class="upload-button" onclick="goToUpload()">Upload</button>
+            <a href="{% url 'show_all_urls' %}" class="button">Show URL</a>
+            <a href="{% url 'upload' %}" class="button">Upload</a>
+            
         </div>
         <!-- Display success messages -->
         {% if messages %}
@@ -240,7 +256,7 @@
                     <button type="submit" name="confirm">Add URL to Database</button>
                 </form>
                 <div class="button-group">
-                    <button type="button" class="clear-button" onclick="goToHome()">Clear</button>
+                    <p>{% url 'check_url' %}</p>
                 </div>
             
             {% endif %}
