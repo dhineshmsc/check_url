@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% load static %}
     <title>Check URL Availability</title> 
     <style>
         .loading-overlay {
@@ -186,6 +187,15 @@
 </head>
 <body>
     <div class="container">
+
+        <a href="https://objectways.com/">
+            <img src="{% static 'logo.png' %}" alt="Logo" style="width: 30%; display: block; margin: 0 auto;">
+        </a>
+        
+
+
+
+        
         <div class="button-group">
             <button type="button" class="show-button" onclick="showLoadingOverlay('urls')">Show URL</button>
             <button type="button" class="upload-button" onclick="goToUpload()">Upload</button>
@@ -235,6 +245,12 @@
             
             {% endif %}
         {% endif %}
+        <center>
+            <div style="color: rgba(0, 0, 0, 0.3); white-space: nowrap; pointer-events: none; z-index: -1;">
+                Powered By Dhinesh Paramasivam
+            </div>
+            
+        </center>
     </div>
 
     <!-- Loading overlay -->

@@ -10,6 +10,7 @@ from django.http import HttpResponse
 import pandas as pd
 import os
 from django.http import FileResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -18,6 +19,8 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['urls_db']
 collection = db['data']
 
+
+@csrf_exempt
 def check_url(request):
     result = None
     form = URLCheckForm(request.POST or None)
@@ -25,7 +28,7 @@ def check_url(request):
     try:
         if request.method == 'POST':
             if form.is_valid():
-                input_url = request.POST.get('input_url')
+                input_url = request.POST.get('input_url').strip()
 
                 # Check if the URL already exists in MongoDB
                 if collection.find_one({"url": input_url}):
@@ -50,6 +53,7 @@ def check_url(request):
     # Do not close the connection here. Let Django or the app manage the connection lifecycle.
     return render(request, 'check_url.html', {'form': form, 'result': result})
 
+@csrf_exempt
 def upload_excel(request):
     try:
         if request.method == 'POST':
@@ -78,6 +82,7 @@ def upload_excel(request):
 
     return render(request, 'upload_excel.html', {'form': form})
 
+@csrf_exempt
 def show_all_urls(request):
     try:
         if 'download' in request.GET:
