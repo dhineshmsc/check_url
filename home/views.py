@@ -83,6 +83,8 @@ def upload_excel(request):
     return render(request, 'upload_excel.html', {'form': form})
 
 @csrf_exempt
+
+
 def show_all_urls(request):
     try:
         if 'download' in request.GET:
@@ -91,17 +93,31 @@ def show_all_urls(request):
 
             # Convert the MongoDB data to a DataFrame
             df = pd.DataFrame(all_urls)
-            
+
             if not df.empty:
                 # Format the DataFrame
                 df['created_at'] = pd.to_datetime(df['created_at']).dt.tz_localize(None)
                 df['employee_id'] = df['employee_id'].replace('unknown', '-')
-                df.columns = ['URL',  'Employee ID','Created At']
+                df.columns = ['URL', 'Employee ID', 'Created At']
 
             # Generate the file name with the current date and time
             current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             filename = f'urls_{current_time}.xlsx'
-            file_path = os.path.join('C:\\Apache24\\htdocs\\static', filename)
+
+            # Define the path relative to the current working directory
+            base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the current file's directory
+            static_dir = os.path.join(base_dir, 'static')  # Reference to 'static' folder
+            new_folder = 'excel_files'  # Create a new folder to store the files
+
+            # Define the new folder path relative to 'static'
+            new_folder_path = os.path.join(static_dir, new_folder)
+
+            # Create the new folder if it doesn't exist
+            if not os.path.exists(new_folder_path):
+                os.makedirs(new_folder_path)
+
+            # Set the full path to the Excel file
+            file_path = os.path.join(new_folder_path, filename)
 
             # Save the Excel file to the specified location
             with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
